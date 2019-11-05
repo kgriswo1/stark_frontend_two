@@ -28,7 +28,6 @@ class SignIn extends React.Component {
       if (data.errors) {
         alert(data.errors)
       } else {
-        console.log(data)
         this.props.setUser(data)
       }
     })

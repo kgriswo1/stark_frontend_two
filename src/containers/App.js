@@ -10,12 +10,13 @@ class App extends React.Component {
 
   state = {
     current_user: null,
-    watchlists: []
+    watchlists: [],
+    myStocks: [],
+    money: 0
   }
 
   componentDidMount() {
     const user_id = localStorage.user_id
-    // debugger
     if (user_id) {
       fetch("http://localhost:4000/api/v1/autologin", {
         headers: {
@@ -27,8 +28,25 @@ class App extends React.Component {
         if (data.errors) {
           alert(data.errors)
         } else {
+          let user = {
+            id: data.id,
+            first_name: data.first_name,
+            last_name: data.last_name,
+            username: data.username,
+            phone_number: data.phone_number,
+            birthday: data.birthday,
+            profile_picture: data.profile_picture,
+            money: data.money
+          }
+          let newWatchlists = data.watchlists
+          let newMyStocks = data.stocks
+          let datamoney = 0
+          {data.money ? datamoney = data.money : datamoney = 0}
           this.setState({
-            current_user: data
+            current_user: user,
+            watchlists: newWatchlists,
+            money: datamoney,
+            myStocks: newMyStocks
           })
         }
       })
@@ -45,10 +63,15 @@ class App extends React.Component {
       birthday: data.birthday,
       profile_picture: data.profile_picture
     }
-    let newWatchlists = [...this.state.watchlists, data.watchlists]
+    let newWatchlists = data.watchlists          
+    let newMyStocks = data.stocks
+    let datamoney = 0
+    {data.money ? datamoney = data.money : datamoney = 0}
     this.setState({
       current_user: user,
-      watchlist: newWatchlists
+      watchlists: newWatchlists,
+      myStocks: newMyStocks,
+      money: datamoney
     }, () => {
       localStorage.user_id = user.id
       this.props.history.push("/")
@@ -64,8 +87,152 @@ class App extends React.Component {
     })
   }
 
+
+  addToWatchList = (ticker) => {
+    let haveThisStock = false
+    if (this.state.watchlists.length > 0) {
+      this.state.watchlists.forEach(stock => {
+        if (stock.ticker === ticker) {
+          haveThisStock = true
+        }
+      })
+    }
+    if (!haveThisStock) {
+      fetch(`http://localhost:4000/api/v1/watchlists`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: localStorage.user_id,
+          ticker: ticker
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        let newArray = [...this.state.watchlists, data]
+        this.setState({
+          watchlist: newArray
+        })
+      })
+    }
+  }
+
+  removeFromWatchlist = (stock) => {
+    let id = stock.id
+    let newArray = [...this.state.watchlists]
+    newArray = newArray.filter(s => s.id !== id)
+    fetch(`http://localhost:4000/api/v1/watchlists/${id}`, {
+      method: "DELETE"
+    })
+    .then(response => response.json())
+    .then(data => this.setState({
+      watchlists: newArray
+    }))
+  }
+
+  addMoneySubmitHandler = (e, amount) => {
+    e.preventDefault() 
+    let newInfo = {...this.state.current_user}
+    newInfo.money = this.state.money + amount
+    fetch(`http://localhost:4000/api/v1/users/${this.state.current_user.id}`, {
+      method: "PATCH", 
+      headers: {
+        'Content-Type': 'application/json',
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newInfo)
+    })
+    .then(response => response.json())
+    .then(data => this.setState({
+      money: data.money
+    }))
+    e.target.reset()
+  }
+
+  decreaseMoney = (amount) => {
+    let newInfo = {...this.state.current_user}
+    newInfo.money = this.state.money - amount
+    fetch(`http://localhost:4000/api/v1/users/${this.state.current_user.id}`, {
+      method: "PATCH", 
+      headers: {
+        'Content-Type': 'application/json',
+        "Accept": "application/json"
+      },
+      body: JSON.stringify(newInfo)
+    })
+    .then(response => response.json())
+    .then(data => this.setState({
+      money: data.money
+    }))
+  }
+
+  addToMyStocks = (e, stockGiven) => {
+    e.preventDefault()
+
+    let id = parseInt(stockGiven.user_id)
+    stockGiven.user_id = id
+
+    let stockId = 0
+    let quantity = 0
+    let price = parseInt(stockGiven.quantity) * parseInt(stockGiven.price)
+
+    let haveThisStock = false
+    if (this.state.myStocks.length > 0) {
+      this.state.myStocks.forEach(stock => {
+        if (stock.ticker === stockGiven.ticker) {
+          stockId = stock.id
+          quantity = parseInt(stock.quantity)
+          haveThisStock = true
+        }
+      })
+    }
+
+    stockGiven.quantity = parseInt(stockGiven.quantity) + quantity
+
+    if (!haveThisStock) {
+      fetch(`http://localhost:4000/api/v1/stocks`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(stockGiven)
+      })
+      .then(response => response.json())
+      .then(data => {
+        let newArray = [...this.state.myStocks, data]
+        this.setState({
+          myStocks: newArray
+        })
+      })
+    } else {
+      fetch(`http://localhost:4000/api/v1/stocks/${stockId}`, {
+        method: "PATCH", 
+        headers: {
+          'Content-Type': 'application/json',
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(stockGiven)
+      })
+      .then(response => response.json())
+      .then(data => {
+        let newArray = this.state.myStocks.filter(stock => stock.ticker !== data.ticker)
+        newArray.push(data)
+        this.setState({
+          myStocks: newArray
+        })
+      })
+    }
+    this.decreaseMoney(price)
+    localStorage.removeItem("ticker")
+    localStorage.removeItem("date")
+    localStorage.removeItem("price")
+  }
+
   render() {
-    console.log(this.state.watchlist)
+    console.log("my stocks", this.state.myStocks)
     return (
       <div>
         <NavBar logout={this.logout}/>
@@ -89,7 +256,14 @@ class App extends React.Component {
           {/* If you are not logged in and try to go to a page it will redirect you to the login page */}
           <Route path="/"> 
             {localStorage.user_id ?
-              <MainContainer watchlist={this.state.watchlist}/> :
+              <MainContainer 
+                watchlists={this.state.watchlists} 
+                addToWatchList={this.addToWatchList} 
+                removeFromWatchlist={this.removeFromWatchlist} 
+                addMoneySubmitHandler={this.addMoneySubmitHandler} 
+                money={this.state.money}
+                addToMyStocks={this.addToMyStocks}
+              /> :
               <Redirect to="/signin" />
             }
           </Route> 
