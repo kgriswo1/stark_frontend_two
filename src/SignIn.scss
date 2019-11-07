@@ -6,10 +6,10 @@ body, html {
 }
 
 body {
-  font-family: 'Open Sans';
+  font-family: 'Times New Roman';
   font-weight: 100;
   display: flex;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 input {
@@ -61,6 +61,7 @@ input {
 }
 
 .login-username, .login-password {
+  font-family: "Times New Roman";
   background: transparent;
   border: 0 solid;
   border-bottom: 1px solid rgba(white, .5);
@@ -73,6 +74,7 @@ input {
 }
 
 .login-submit {
+  font-family: "Times New Roman";
   border: 1px solid white;
   background: transparent;
   color: white;
@@ -93,7 +95,7 @@ input {
   z-index: -1;
 }
 
-.signup {
+.signin {
   bottom: 1;
   color: white;
   font-size: 90%;

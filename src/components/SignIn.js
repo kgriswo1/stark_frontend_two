@@ -36,7 +36,7 @@ class SignIn extends React.Component {
 
   render() {
     return (
-        <div className="signin">
+        <div className="signinDiv">
           <h1 id="stark">STARK</h1>
           <form onSubmit={this.handleSubmit} className="login-form">
             <p className="login-text">
@@ -47,9 +47,9 @@ class SignIn extends React.Component {
             </p>
 
             <input name="username" value={this.state.username} onChange={this.handleChange} placeholder="Username" className="login-username"/>
-            <input name="password" value={this.state.password} type="password" onChange={this.handleChange} placeholder="password" className="login-password"/>
+            <input name="password" value={this.state.password} type="password" onChange={this.handleChange} placeholder="Password" className="login-password"/>
             <input type="submit" name="Login" value="Sign In" className="login-submit" />
-            <Link to="/signup" className="signup">sign up?</Link>
+            <Link to="/signup" className="signin">sign up?</Link>
           </form>
         </div>
     )

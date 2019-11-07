@@ -15,9 +15,9 @@ class MainContainer extends React.Component {
         logos: {
             FB: ["Facebook", "https://clipart.info/images/ccovers/1499793248fb-facebook-icon-clipart-logo.png"],
             MSFT: ["Microsoft", "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg"],
-            GOOGL: ["Google", "https://banner2.cleanpng.com/20180324/iww/kisspng-google-logo-g-suite-google-5ab6f1cee66464.5739288415219388949437.jpg"],
+            GOOGL: ["Google", "https://hersheymotors.com/wp-content/uploads/sites/17/icon-google-square-png.png"],
             IBM: ["IBM", "https://www.ibm.com/design/language/331f29bd23328a3d372d3a8a54aa8187/core-blue40-blue90.svg"],
-            COF: ["Capital One", "https://thumbor.forbes.com/thumbor/416x416/filters%3Aformat%28jpg%29/https%3A%2F%2Fi.forbesimg.com%2Fmedia%2Flists%2Fcompanies%2Fcapital-one-financial_416x416.jpg"],
+            COF: ["Capital One", "https://codessafe.com/wp-content/uploads/2018/03/Capital-One-New-York-Branch-SWIFT-BIC-Code.jpg"],
             TWTR: ["Twitter", "https://images-eu.ssl-images-amazon.com/images/I/31KluT5nBkL.png"],
         }
     }

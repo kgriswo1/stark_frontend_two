@@ -25,10 +25,8 @@ class Home extends React.Component {
 
           <Route path="/stocks" render={() => {
             return (
-              <div className="home">
-                <div className="ui grid">
-                  {stocksArray}
-                </div>
+              <div className="stocks">
+                {stocksArray}
               </div>
             )
           }}/>

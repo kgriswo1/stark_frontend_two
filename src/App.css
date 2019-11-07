@@ -32,7 +32,7 @@ body {
   background-color: #34353a;
 }
 
-.signin {
+.signinDiv {
   text-align: center;
   left: 42%;
   position: absolute;
@@ -42,4 +42,39 @@ body {
 #stark {
   font-family: 'Geostar Fill', cursive;
   font-size: 4rem;
+  text-align: center;
+}
+
+.ui.form .field>label {
+  color: white;
+}
+
+.signupDiv {
+  position: absolute;
+  top: 27%;
+  left: 30%;
+}
+
+.signup-button {
+  text-align: center;
+}
+
+.ui.submit.button.signup {
+  font-family: "Times New Roman";
+}
+
+.stocks {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  margin-top: -5%;
+}
+
+.ui.card {
+  /* max-width: none; */
+  width: 100%;
+  /* margin-bottom: 20%; */
+}
+
+.outerCard {
+  padding: 10%;
 }

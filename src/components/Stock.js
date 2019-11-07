@@ -16,7 +16,7 @@ class Stock extends React.Component {
 
     render() {
         return (
-            <Link to={`/stocks/${this.grabTicker()}`} className="four wide column">
+            <Link to={`/stocks/${this.grabTicker()}`} className="outerCard">
                 <div className="ui card">
                     <div className="image">
                         <img src={this.props.logos[this.grabTicker()][1]}/>

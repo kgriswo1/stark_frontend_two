@@ -1,7 +1,5 @@
 import React from 'react';
 import Stock from '../components/Stock'
-import { Route, Switch } from 'react-router-dom'
-import StockShow from '../components/StockShow'
 
 
 class Profile extends React.Component {
@@ -20,7 +18,7 @@ class Profile extends React.Component {
   render() {
     let stocksArray = this.grabStocks().map(stock => <Stock key={stock.id} stock={stock} logos={this.props.logos}/>)
     return (
-      <div className="ui grid">
+      <div className="stocks">
         {stocksArray}
       </div>
     )

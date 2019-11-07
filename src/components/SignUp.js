@@ -54,19 +54,53 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>SignUp</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <input name="first_name" value={this.state.first_name} onChange={this.handleChange} placeholder="first_name" />
-                    <input name="last_name" value={this.state.last_name} onChange={this.handleChange} placeholder="last_name" />
-                    <input name="username" value={this.state.username} onChange={this.handleChange} placeholder="username" />
-                    <input name="phone_number" value={this.state.phone_number} onChange={this.handleChange} placeholder="phone_number" />
-                    <input name="birthday" value={this.state.birthday} onChange={this.handleChange} placeholder="birthday" />
-                    <input name="profile_picture" value={this.state.profile_picture} onChange={this.handleChange} placeholder="profile_picture" />
-                    <input name="password" value={this.state.password} type="password" onChange={this.handleChange} placeholder="password" />
-                    <input name="passwordConfirmation" value={this.state.passwordConfirmation} type="password" onChange={this.handleChange} placeholder="passwordConfirmation" />
-                    <button type="submit">SignUp</button>
-                </form>
+            <div className="signupDiv">
+                <div className="ui form">
+                    <h1 id="stark">Stark</h1>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="three fields">
+                            <div className="field">
+                                <label>First Name</label>
+                                <input name="first_name" value={this.state.first_name} onChange={this.handleChange} placeholder="first name" />
+                            </div>
+                            <div className="field">
+                                <label>Last Name</label>
+                                <input name="last_name" value={this.state.last_name} onChange={this.handleChange} placeholder="last name" />
+                            </div>
+                            <div className="field">
+                                <label>Username</label>
+                                <input name="username" value={this.state.username} onChange={this.handleChange} placeholder="username" />
+                            </div>
+                        </div>
+                        <div className="three fields">
+                            <div className="field">
+                                <label>Phone Number</label>
+                                <input name="phone_number" value={this.state.phone_number} onChange={this.handleChange} placeholder="phone number" />
+                            </div>
+                            <div className="field">
+                                <label>Birthday</label>
+                                <input name="birthday" value={this.state.birthday} onChange={this.handleChange} placeholder="birthday" />
+                            </div>
+                            <div className="field">
+                                <label>Profile Picture</label>
+                                <input name="profile_picture" value={this.state.profile_picture} onChange={this.handleChange} placeholder="profile picture" />
+                            </div>
+                        </div>
+                        <div className="two fields">
+                            <div className="field">
+                                <label>Password</label>
+                                <input name="password" value={this.state.password} type="password" onChange={this.handleChange} placeholder="password" />
+                            </div>
+                            <div className="field">
+                                <label>Password Confirmation</label>
+                                <input name="passwordConfirmation" value={this.state.passwordConfirmation} type="password" onChange={this.handleChange} placeholder="password confirmation" />
+                            </div>
+                        </div>
+                        <div className="signup-button">
+                            <button type="submit" className="ui submit button signup">Sign Up</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         )
     }
@@ -74,3 +108,5 @@ class SignUp extends React.Component {
 }
 
 export default SignUp
+
+
