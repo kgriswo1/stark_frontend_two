@@ -15,7 +15,8 @@ class Settings extends React.Component {
     render() {
         return (
             <div>
-                <h1>Add Money:</h1>
+                <h1>Add Money</h1>
+                <h2>Amount: {this.props.money}</h2>
                 <form onSubmit={(e) => this.props.addMoneySubmitHandler(e, this.state.moneyState)}>
                     <input type="number" name="money" placeholder="insert amount here" onChange={this.addMoneyChangeHandler} />
                     <input type="submit" name="Submit" /> 

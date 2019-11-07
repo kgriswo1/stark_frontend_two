@@ -1,4 +1,6 @@
-.App {
+@import url('https://fonts.googleapis.com/css?family=Geostar+Fill&display=swap');
+
+/* .App {
   text-align: center;
 }
 
@@ -19,4 +21,25 @@
 
 .App-link {
   color: #09d3ac;
+} */
+
+
+.maincontainer {
+  margin: 10%;
+}
+
+body {
+  background-color: #34353a;
+}
+
+.signin {
+  text-align: center;
+  left: 42%;
+  position: absolute;
+  top: 32%;
+}
+
+#stark {
+  font-family: 'Geostar Fill', cursive;
+  font-size: 4rem;
 }

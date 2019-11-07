@@ -1,13 +1,15 @@
 import React from 'react';
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class NavBar extends React.Component {
 
   render() {
     return (
-        <div>
-            <h1>NavBar</h1>
-            <h2 onClick={this.props.logout}>Logout</h2>
+        <div className="ui black inverted fixed menu">
+          <Link to="/stocks" className="white item">Home</Link>
+          <Link to="/watchlists" className="white item">Watchlist</Link>
+          <Link to="/profile" className="white item">Profile</Link>
+          <Link to="/signin" className="white right item" onClick={this.props.logout}>Logout</Link>
         </div>
     )
   }

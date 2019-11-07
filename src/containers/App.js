@@ -1,8 +1,8 @@
 import React from 'react';
 import '../App.css';
+import '../SignIn.scss';
 import { Route, withRouter, Switch, Redirect} from 'react-router-dom'
 import MainContainer from './MainContainer'
-import NavBar from './NavBar'
 import SignIn from '../components/SignIn'
 import SignUp from '../components/SignUp'
 
@@ -74,7 +74,7 @@ class App extends React.Component {
       money: datamoney
     }, () => {
       localStorage.user_id = user.id
-      this.props.history.push("/")
+      this.props.history.push("/stocks")
     })
   }
 
@@ -112,10 +112,13 @@ class App extends React.Component {
       .then(response => response.json())
       .then(data => {
         let newArray = [...this.state.watchlists, data]
+        this.props.history.push("/watchlists")
         this.setState({
-          watchlist: newArray
+          watchlists: newArray
         })
       })
+    } else {
+      alert("This stock is already in your watch list")
     }
   }
 
@@ -173,25 +176,11 @@ class App extends React.Component {
 
     let id = parseInt(stockGiven.user_id)
     stockGiven.user_id = id
-
-    let stockId = 0
-    let quantity = 0
-    let price = parseInt(stockGiven.quantity) * parseInt(stockGiven.price)
-
-    let haveThisStock = false
-    if (this.state.myStocks.length > 0) {
-      this.state.myStocks.forEach(stock => {
-        if (stock.ticker === stockGiven.ticker) {
-          stockId = stock.id
-          quantity = parseInt(stock.quantity)
-          haveThisStock = true
-        }
-      })
+    let price = 0
+    if (stockGiven.quantity) {
+      price = parseInt(stockGiven.quantity) * parseInt(stockGiven.price)
     }
-
-    stockGiven.quantity = parseInt(stockGiven.quantity) + quantity
-
-    if (!haveThisStock) {
+    if (this.state.money - price > 0) {
       fetch(`http://localhost:4000/api/v1/stocks`, {
         method: "POST",
         headers: {
@@ -202,53 +191,46 @@ class App extends React.Component {
       })
       .then(response => response.json())
       .then(data => {
-        let newArray = [...this.state.myStocks, data]
-        this.setState({
-          myStocks: newArray
-        })
+        if (!data.errors) {
+          this.props.history.push("/stocks")
+          let newArray = [...this.state.myStocks, data]
+          this.setState({
+            myStocks: newArray
+          })
+        } else {
+          alert(data.errors)
+        }
       })
+      this.decreaseMoney(price)
     } else {
-      fetch(`http://localhost:4000/api/v1/stocks/${stockId}`, {
-        method: "PATCH", 
-        headers: {
-          'Content-Type': 'application/json',
-          "Accept": "application/json"
-        },
-        body: JSON.stringify(stockGiven)
-      })
-      .then(response => response.json())
-      .then(data => {
-        let newArray = this.state.myStocks.filter(stock => stock.ticker !== data.ticker)
-        newArray.push(data)
-        this.setState({
-          myStocks: newArray
-        })
-      })
+      alert("You don't have enough money!")
     }
-    this.decreaseMoney(price)
-    localStorage.removeItem("ticker")
-    localStorage.removeItem("date")
-    localStorage.removeItem("price")
+  }
+
+  sellStock = (e, stockGiven) => {
+    e.preventDefault()
+
+    let stocks = this.state.myStocks
+    debugger 
+   
   }
 
   render() {
-    console.log("my stocks", this.state.myStocks)
     return (
-      <div>
-        <NavBar logout={this.logout}/>
+      <div className="app">
         <Switch>
 
           {/* If you are logged in you can't go to the sign in or sign up page */}
           <Route path="/signin" >
             {localStorage.user_id ?
-              <Redirect to="/" /> :
+              <Redirect to="/stocks" /> :
               <SignIn setUser={this.setUser} />
             }
           </Route>
 
           <Route path="/signup" >
             {localStorage.user_id ?
-              <Redirect to="/" /> :
+              <Redirect to="/stocks" /> :
               <SignUp setUser={this.setUser} />
             }
           </Route>
@@ -263,6 +245,9 @@ class App extends React.Component {
                 addMoneySubmitHandler={this.addMoneySubmitHandler} 
                 money={this.state.money}
                 addToMyStocks={this.addToMyStocks}
+                sellStock={this.sellStock}
+                myStocks={this.state.myStocks}
+                logout={this.logout}
               /> :
               <Redirect to="/signin" />
             }

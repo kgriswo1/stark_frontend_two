@@ -1,15 +1,15 @@
 import React from 'react';
 
-class BuyStock extends React.Component {
+class SellStock extends React.Component {
 
     state = {
         user_id: localStorage.user_id,
         ticker: localStorage.ticker,
-        quantity: null,
+        quantity: 0,
         date: localStorage.date,
         price: localStorage.price,
-        sold: false, 
-        bought: true
+        sold: true, 
+        bought: false
     }
 
     inputQuantity = (e) => {
@@ -21,12 +21,12 @@ class BuyStock extends React.Component {
     render() {
         return (
             <div>
-                <h1>Buy Stock: {localStorage.ticker}</h1>
+                <h1>Sell Stock: {localStorage.ticker}</h1>
                 <p>Wealth: ${this.props.money}</p>
                 <p>Stock Price: {localStorage.price}</p>
-                <form onSubmit={(e) => this.props.addToMyStocks(e, this.state)}>
+                <form onSubmit={(e) => this.props.sellStock(e, this.state)}>
                     <input type="number" placeholder="enter quantity" min="0" onChange={this.inputQuantity}/>
-                    <button type="submit" className="ui orange button" >Buy Stock</button>
+                    <button type="submit">Sell Stock</button>
                 </form>
             </div>
         )
@@ -34,4 +34,4 @@ class BuyStock extends React.Component {
 
 }
 
-export default BuyStock
+export default SellStock
