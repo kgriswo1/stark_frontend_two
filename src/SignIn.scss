@@ -48,7 +48,7 @@ input {
 .login-text {
   //background: hsl(40,30,60);
   //border-bottom: .5rem solid white;
-  color: white;
+  color: black;
   font-size: 1.5rem;
   margin: 0 auto;
   max-width: 50%;
@@ -56,7 +56,7 @@ input {
   text-align: center;
   // text-shadow: 1px -1px 0 rgba(0,0,0,0.3);
   .fa-stack-1x {
-    color: black;
+    color: white;
   }
 }
 
@@ -64,8 +64,8 @@ input {
   font-family: "Times New Roman";
   background: transparent;
   border: 0 solid;
-  border-bottom: 1px solid rgba(white, .5);
-  color: white;
+  border-bottom: 1px solid rgba(0,0,0,.95);
+  color: black;
   display: block;
   margin: 1rem;
   padding: .5rem;
@@ -75,17 +75,17 @@ input {
 
 .login-submit {
   font-family: "Times New Roman";
-  border: 1px solid white;
+  border: 1px solid black;
   background: transparent;
-  color: white;
+  color: black;
   display: block;
   margin: 1rem auto;
   min-width: 1px;
   padding: .25rem;
   transition: 250ms background ease-in;
   &:hover, &:focus {
-    background: white;
-    color: black;
+    background: black;
+    color: white;
     transition: 250ms background ease-in;
   }
 }
@@ -97,7 +97,7 @@ input {
 
 .signin {
   bottom: 1;
-  color: white;
+  color: black;
   font-size: 90%;
   padding: .5rem;
   width: 100%;

@@ -1,6 +1,6 @@
 import React from 'react';
-import '../App.css';
 import '../SignIn.scss';
+import '../App.css';
 import { Route, withRouter, Switch, Redirect} from 'react-router-dom'
 import MainContainer from './MainContainer'
 import SignIn from '../components/SignIn'

@@ -19,9 +19,9 @@ class Profile extends React.Component {
   render() {
     let stocksArray = this.grabStocks().map(stock => <Stock key={stock.id} stock={stock} logos={this.props.logos}/>)
     return (
-      <div>
+      <div className="profile">
         <SideBar current_user={this.props.current_user}/>
-        <div className="stocks">
+        <div className="stocksProfile">
           {stocksArray}
         </div>
       </div>

@@ -50,9 +50,8 @@ class StockShow extends React.Component {
     render() {
         // debugger
         return (
-            <div>
-                <h1>{this.props.logos[this.props.ticker][0]}</h1>
-                <p>date: {this.state.showStock["07. latest trading day"]}</p>
+            <div className="showpage">
+                <h1 className="showheader">{this.props.logos[this.props.ticker][0]}</h1>
                 <table className="ui celled table">
                     <thead>
                         <tr>
@@ -84,13 +83,13 @@ class StockShow extends React.Component {
 
                 </table>
                 <Link to={"/buystock"} >
-                    <button onClick={() => {
+                    <button className="ui black button" onClick={() => {
                         localStorage.ticker = this.state.showStock["01. symbol"]
                         localStorage.date = this.state.showStock["07. latest trading day"]
                         localStorage.price = this.state.showStock["05. price"]
-                    }}>Buy</button>
+                    }}><i className="cart plus icon"></i>Buy</button>
                 </Link>
-                <button onClick={() => {this.props.addToWatchList(this.state.showStock["01. symbol"])}} >Add To Watchlist</button>
+                <button className="ui black button" onClick={() => {this.props.addToWatchList(this.state.showStock["01. symbol"])}}><i className="eye icon"></i>Add To Watchlist</button>
 
                 { this.stocksOwned().length > 0 ? 
                     (   <>

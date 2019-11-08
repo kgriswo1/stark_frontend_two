@@ -23,19 +23,23 @@
   color: #09d3ac;
 } */
 
-
+.showheader {
+  font-family: "Times New Roman";
+  font-size: 5rem;
+}
 .maincontainer {
   margin: 10%;
 }
 
 body {
-  background-color: #34353a;
+  /* background-color: #34353a; */
+  background-color: white;
 }
 
 .signinDiv {
   text-align: center;
   left: 42%;
-  position: absolute;
+  position: fixed;
   top: 32%;
 }
 
@@ -46,32 +50,45 @@ body {
 }
 
 .ui.form .field>label {
-  color: white;
+  color: #252525;
 }
 
 .signupDiv {
-  position: absolute;
+  position: fixed;
   top: 32%;
   left: 34%;
+}
+
+.ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
+  border: 1px solid rgba(0,0,0,.95);
 }
 
 .signup-button {
   text-align: center;
 }
 
-.ui.submit.button.signup {
+.ui.secondary.button {
   font-family: "Times New Roman";
+  border: 1px solid black;
+}
+
+.ui.secondary.button:hover {
+  background: white;
+  color: black;
+  transition: 250ms background ease-in;
 }
 
 .stocks {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  margin-top: -5%;
+  margin-top: -3%;
 }
 
 .ui.card {
   /* max-width: none; */
   width: 100%;
+  box-shadow: none;
+  /* border-radius: 0rem; */
   /* margin-bottom: 20%; */
 }
 
@@ -82,14 +99,14 @@ body {
 .ui.inverted.menu {
   background: black;
   /* border: transparent; */
-}
+} 
 
 .ui.vertical.menu {
-  position: fixed;
+  /* position: fixed;
   left: 0%;
-  height: 100%;
+  height: 100%; */
   border-radius: 0%;
-  top: 0%;
+  /* top: 0%; */
   width: 16rem;
 }
 
@@ -97,19 +114,101 @@ body {
   height: 7%;
 }
 
-.ui.menu:first-child {
-  margin-top: none;
-}
-
-.ui.centered.card {
-  border-radius: 0%;
-  background-color: transparent;
-  box-shadow: -1px -2px 0px 0;
-}
-
 
 .profile_pic {
-  box-shadow: -1px -1px 7px 0px;
-  margin: 0%;
+  /* box-shadow: -1px -1px 7px 0px; */
+  margin-top: -15%;
+  width: 16rem;
+  /* position: fixed; */
+  /* border-radius: 0px; */
 }
 
+
+.sidebar {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 19rem; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #22232a; /* Black */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 3%;
+}
+
+.stocksProfile {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  margin-left: 15%;
+  margin-top: -3%;
+}
+
+.ui.card {
+  box-shadow: 0 1px 3px 0 #3c3c449c, 0 0 0 1px #d4d4d5;
+}
+
+.ui.card>.content>.header.profile {
+  color: white;
+}
+
+.ui.card .meta {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.ui.menu .item {
+  color: white;
+}
+
+
+i.black.icon {
+  color: #ecf1f7!important;
+  font-size: 2em;
+}
+
+.ui.card>.content>.header, .ui.cards>.card>.content>.header {
+  font-family: none;
+}
+
+.showpage {
+  text-align: center;
+  position: absolute;
+  top: 10%;
+  left: 29%;
+
+  /* font-family: "Times New Roman"; */
+}
+
+.ui.table thead th {
+  background: #383737;
+  color: white;
+}
+
+.ui.card.profile {
+  box-shadow: none;
+  /* background-color: #202433; */
+  background-color: #22232a;
+}
+
+.ui.celled.table tr td, .ui.celled.table tr th {
+  border-left: 1px solid rgb(56, 55, 55);
+}
+
+.ui.celled.table {
+  border-color: black;
+}
+
+.money.bill.alternate.outline.icon {
+  font-size: 20px;
+  color: black;
+}
+
+.ui.black.button {
+  font-family: none;
+  border: 1px solid black;
+}
+
+.ui.black.button:hover {
+  background: white;
+  color: black;
+  transition: 250ms background ease-in;
+}
