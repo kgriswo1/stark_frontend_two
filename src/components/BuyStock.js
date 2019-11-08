@@ -8,8 +8,7 @@ class BuyStock extends React.Component {
         quantity: null,
         date: localStorage.date,
         price: localStorage.price,
-        sold: false, 
-        bought: true
+        sold: 0
     }
 
     inputQuantity = (e) => {
@@ -18,10 +17,12 @@ class BuyStock extends React.Component {
         })
     }
 
+    
+
     render() {
         return (
             <div>
-                <h1>Buy Stock: {localStorage.ticker}</h1>
+                <h1>Buy Stock: {this.props.logos[this.state.ticker][0]}</h1>
                 <p>Wealth: ${this.props.money}</p>
                 <p>Stock Price: {localStorage.price}</p>
                 <form onSubmit={(e) => this.props.addToMyStocks(e, this.state)}>

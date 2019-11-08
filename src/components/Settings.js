@@ -13,6 +13,7 @@ class Settings extends React.Component {
       }
 
     render() {
+        console.log("in setting", this.props)
         return (
             <div>
                 <h1>Add Money</h1>

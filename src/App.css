@@ -51,8 +51,8 @@ body {
 
 .signupDiv {
   position: absolute;
-  top: 27%;
-  left: 30%;
+  top: 32%;
+  left: 34%;
 }
 
 .signup-button {
@@ -78,3 +78,38 @@ body {
 .outerCard {
   padding: 10%;
 }
+
+.ui.inverted.menu {
+  background: black;
+  /* border: transparent; */
+}
+
+.ui.vertical.menu {
+  position: fixed;
+  left: 0%;
+  height: 100%;
+  border-radius: 0%;
+  top: 0%;
+  width: 16rem;
+}
+
+.ui.menu.fixed {
+  height: 7%;
+}
+
+.ui.menu:first-child {
+  margin-top: none;
+}
+
+.ui.centered.card {
+  border-radius: 0%;
+  background-color: transparent;
+  box-shadow: -1px -2px 0px 0;
+}
+
+
+.profile_pic {
+  box-shadow: -1px -1px 7px 0px;
+  margin: 0%;
+}
+

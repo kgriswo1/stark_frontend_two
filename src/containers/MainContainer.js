@@ -103,9 +103,9 @@ class MainContainer extends React.Component {
                 <NavBar logout={this.props.logout}/>
                 <Switch>
                     <Route path="/watchlists" render={() => <WatchList watchlists={this.props.watchlists} removeFromWatchlist={this.props.removeFromWatchlist}/>} />
-                    <Route path="/profile" render={() => <Profile myStocks={this.props.myStocks} logos={this.state.logos}/> } />
+                    <Route path="/profile" render={() => <Profile current_user={this.props.current_user} myStocks={this.props.myStocks} logos={this.state.logos}/> } />
                     <Route path="/settings" render={() => <Settings money={this.props.money} addMoneySubmitHandler={this.props.addMoneySubmitHandler}/>} />
-                    <Route path="/buystock" render={() => <BuyStock money={this.props.money} addToMyStocks={this.props.addToMyStocks}/>} />
+                    <Route path="/buystock" render={() => <BuyStock logos={this.state.logos} money={this.props.money} addToMyStocks={this.props.addToMyStocks}/>} />
                     <Route path="/sellstock" render={() => <SellStock money={this.props.money} sellStock={this.props.sellStock}/>} />
                     <Route path="/stocks" render={() => <Home myStocks={this.props.myStocks} stocks={this.state.stocks} addToWatchList={this.props.addToWatchList} logos={this.state.logos}/>} />
                 </Switch>

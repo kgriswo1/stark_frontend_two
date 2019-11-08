@@ -82,7 +82,7 @@ class App extends React.Component {
     this.setState({
       current_user: null
     }, () => {
-      localStorage.removeItem("user_id")
+      localStorage.clear()
       this.props.history.push("/signin")
     })
   }
@@ -137,21 +137,35 @@ class App extends React.Component {
 
   addMoneySubmitHandler = (e, amount) => {
     e.preventDefault() 
+    this.increaseMoney(amount)
+    e.target.reset()
+  }
+
+  increaseMoney = (amount) => {
     let newInfo = {...this.state.current_user}
     newInfo.money = this.state.money + amount
-    fetch(`http://localhost:4000/api/v1/users/${this.state.current_user.id}`, {
-      method: "PATCH", 
-      headers: {
-        'Content-Type': 'application/json',
-        "Accept": "application/json"
-      },
-      body: JSON.stringify(newInfo)
-    })
-    .then(response => response.json())
-    .then(data => this.setState({
-      money: data.money
-    }))
-    e.target.reset()
+    if (amount === 0) {
+      alert("Please enter amount")
+    } else {
+      fetch(`http://localhost:4000/api/v1/users/${this.state.current_user.id}`, {
+        method: "PATCH", 
+        headers: {
+          'Content-Type': 'application/json',
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: this.state.current_user.id,
+          money: this.state.money + amount
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          money: data.money,
+          current_user: newInfo
+        })
+      })
+    }
   }
 
   decreaseMoney = (amount) => {
@@ -174,8 +188,8 @@ class App extends React.Component {
   addToMyStocks = (e, stockGiven) => {
     e.preventDefault()
 
-    let id = parseInt(stockGiven.user_id)
-    stockGiven.user_id = id
+    // let id = parseInt(stockGiven.user_id)
+    // stockGiven.user_id = id
     let price = 0
     if (stockGiven.quantity) {
       price = parseInt(stockGiven.quantity) * parseInt(stockGiven.price)
@@ -192,7 +206,7 @@ class App extends React.Component {
       .then(response => response.json())
       .then(data => {
         if (!data.errors) {
-          this.props.history.push("/stocks")
+          this.props.history.push(`/stocks/${stockGiven.ticker}`)
           let newArray = [...this.state.myStocks, data]
           this.setState({
             myStocks: newArray
@@ -202,6 +216,8 @@ class App extends React.Component {
         }
       })
       this.decreaseMoney(price)
+      localStorage.clear()
+      localStorage.user_id = this.state.current_user.id
     } else {
       alert("You don't have enough money!")
     }
@@ -209,10 +225,42 @@ class App extends React.Component {
 
   sellStock = (e, stockGiven) => {
     e.preventDefault()
+    // debugger
 
-    let stocks = this.state.myStocks
-    debugger 
-   
+    // let stocks = this.state.myStocks
+    if (parseInt(stockGiven.quantity) >= parseInt(stockGiven.sold)) {
+      let theStock = this.state.myStocks.find(stock => stock.id === parseInt(stockGiven.id))
+      stockGiven.sold = parseInt(stockGiven.sold) + theStock.sold
+
+      fetch(`http://localhost:4000/api/v1/stocks/${stockGiven.id}`, {
+        method: "PATCH",
+        headers: {
+          'Content-Type': 'application/json',
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(stockGiven)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.errors) {
+          this.props.history.push(`/stocks/${stockGiven.ticker}`)
+          let newArray = this.state.myStocks.filter(stock => stock.id !== data.id)
+          newArray = [...newArray, data]
+          this.setState({
+            myStocks: newArray
+          })
+        } else {
+          alert(data.errors)
+        }
+      })
+      this.increaseMoney(parseInt(stockGiven.sold) * parseFloat(stockGiven.price))
+      localStorage.clear()
+      localStorage.user_id = this.state.current_user.id
+    } else if (!stockGiven.sold){
+      alert("Please enter quantity")
+    } else {
+      alert("You don't have enough stock to sell")
+    }
   }
 
   render() {
@@ -248,6 +296,7 @@ class App extends React.Component {
                 sellStock={this.sellStock}
                 myStocks={this.state.myStocks}
                 logout={this.logout}
+                current_user={this.state.current_user}
               /> :
               <Redirect to="/signin" />
             }

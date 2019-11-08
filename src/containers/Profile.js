@@ -1,5 +1,6 @@
 import React from 'react';
 import Stock from '../components/Stock'
+import SideBar from '../components/SideBar';
 
 
 class Profile extends React.Component {
@@ -18,8 +19,11 @@ class Profile extends React.Component {
   render() {
     let stocksArray = this.grabStocks().map(stock => <Stock key={stock.id} stock={stock} logos={this.props.logos}/>)
     return (
-      <div className="stocks">
-        {stocksArray}
+      <div>
+        <SideBar current_user={this.props.current_user}/>
+        <div className="stocks">
+          {stocksArray}
+        </div>
       </div>
     )
   }
