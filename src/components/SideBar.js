@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
-import Popup from './Popup'
 import Settings from './Settings'
 
 class SideBar extends React.Component {
@@ -16,7 +15,6 @@ class SideBar extends React.Component {
     }
 
     render() {
-        console.log(this.props.current_user)
         return (
             <>
                 {this.props.current_user ? 

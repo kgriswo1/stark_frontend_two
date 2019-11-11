@@ -184,9 +184,7 @@ class App extends React.Component {
     }))
   }
 
-  addToMyStocks = (e, stockGiven) => {
-    e.preventDefault()
-
+  addToMyStocks = (stockGiven) => {
     // let id = parseInt(stockGiven.user_id)
     // stockGiven.user_id = id
     let price = 0
@@ -222,14 +220,11 @@ class App extends React.Component {
     }
   }
 
-  sellStock = (e, stockGiven) => {
-    e.preventDefault()
+  sellStock = (stockGiven) => {
     // debugger
 
     // let stocks = this.state.myStocks
     if (parseInt(stockGiven.quantity) >= parseInt(stockGiven.sold)) {
-      let theStock = this.state.myStocks.find(stock => stock.id === parseInt(stockGiven.id))
-      stockGiven.sold = parseInt(stockGiven.sold) + theStock.sold
 
       fetch(`http://localhost:4000/api/v1/stocks/${stockGiven.id}`, {
         method: "PATCH",

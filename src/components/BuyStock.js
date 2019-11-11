@@ -17,18 +17,35 @@ class BuyStock extends React.Component {
         })
     }
 
-    
+    onSubmitHandler = (e) => {
+        e.preventDefault()
+        this.props.addToMyStocks(this.state)
+        this.props.closePopup()
+    }
+
+    onClickHandler = (e) => {
+        if (e.target.className === "settings") {
+            this.props.closePopup()
+            localStorage.clear()
+            localStorage.user_id = this.state.user_id
+        }
+    }
 
     render() {
         return (
-            <div>
-                <h1>Buy Stock: {this.props.logos[this.state.ticker][0]}</h1>
-                <p>Wealth: ${this.props.money}</p>
-                <p>Stock Price: {localStorage.price}</p>
-                <form onSubmit={(e) => this.props.addToMyStocks(e, this.state)}>
-                    <input type="number" placeholder="enter quantity" min="0" onChange={this.inputQuantity}/>
-                    <button type="submit" className="ui orange button" >Buy Stock</button>
-                </form>
+            <div className="settings" onClick={this.onClickHandler}>
+                <div className="ui form settingsinner">
+                    <div className="settingsinner2">
+                        <div className="addMoney">Wealth: ${this.props.money}</div>
+                        <div>Stock Price: {localStorage.price}</div>
+                        <form onSubmit={this.onSubmitHandler} className="fields form">
+                            <div className="field">
+                                <input type="number" placeholder="quantity" min="0" onChange={this.inputQuantity}/>
+                            </div>
+                            <button className="ui black button">Buy</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         )
     }

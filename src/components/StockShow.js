@@ -2,12 +2,27 @@ import React from 'react';
 import { Link } from 'react-router-dom'
 import MyStock from './MyStock';
 import empty from '../empty.png'
+import Buystock from './BuyStock'
 
 class StockShow extends React.Component {
     // _isMounted = false
 
     state = {
-        showStock: {}
+        showStock: {},
+        showPopup: false
+    }
+
+    togglePopup = () => {  
+        this.setState({  
+            showPopup: !this.state.showPopup  
+        });  
+    }
+
+    onClickHandler = () => {
+        this.togglePopup()
+        localStorage.ticker = this.state.showStock["01. symbol"]
+        localStorage.date = this.state.showStock["07. latest trading day"]
+        localStorage.price = this.state.showStock["05. price"]
     }
 
     componentDidMount() {
@@ -83,13 +98,22 @@ class StockShow extends React.Component {
                     </tbody>
 
                 </table>
-                <Link to={"/buystock"} >
+                {/* <Link to={"/buystock"} >
                     <button className="ui black button" onClick={() => {
                         localStorage.ticker = this.state.showStock["01. symbol"]
                         localStorage.date = this.state.showStock["07. latest trading day"]
                         localStorage.price = this.state.showStock["05. price"]
                     }}><i className="cart plus icon"></i>Buy</button>
-                </Link>
+                </Link> */}
+                <button className="ui black button" onClick={this.onClickHandler}>
+                    <i className="cart plus icon"></i>Buy
+                </button>
+
+                {this.state.showPopup ?  
+                    <Buystock money={this.props.money} logos={this.props.logos} addToMyStocks={this.props.addToMyStocks} closePopup={this.togglePopup} />  
+                    : null  
+                }
+
                 <button className="ui black button" onClick={() => {this.props.addToWatchList(this.state.showStock["01. symbol"])}}><i className="eye icon"></i>Add To Watchlist</button>
 
                 { this.stocksOwned().length > 0 ? 
@@ -108,7 +132,7 @@ class StockShow extends React.Component {
                                 </thead>
 
                                 <tbody>
-                                    {this.stocksOwned().map(stock => <MyStock key={stock.id} stock={stock} currentPrice={this.state.showStock["05. price"]}/>)}
+                                    {this.stocksOwned().map(stock => <MyStock money={this.props.money} logos={this.props.logos} key={stock.id} stock={stock} sellStock={this.props.sellStock} currentPrice={this.state.showStock["05. price"]}/>)}
                                 </tbody>
                             </table>
                            
@@ -131,11 +155,3 @@ class StockShow extends React.Component {
 
 export default StockShow
 
-
-                {/* <Link to={"/sellstock"}>
-                    <button onClick={() => {
-                        localStorage.ticker = this.state.showStock["01. symbol"]
-                        localStorage.date = this.state.showStock["07. latest trading day"]
-                        localStorage.price = this.state.showStock["05. price"]
-                    }}>Sell</button>
-                </Link> */}

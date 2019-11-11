@@ -256,7 +256,7 @@ i.black.icon {
 }
 
 /* ----------------------------------------- */
-/* Pop Up */
+/* Add money */
 
 .settings {  
   position: fixed;  
@@ -274,33 +274,50 @@ i.black.icon {
 
 .ui.form.settingsinner {  
   position: absolute;  
-  left: 33%;  
-  right: 33%;  
-  top: 10%;
+  left: 39%;  
+  right: 39%;  
+  top: 13%;
   bottom: 40%;  
-  margin-top: 10%;  
-  border-radius: 20px;  
+  margin-top: 12%;  
+  border-radius: 0.123rem;  
   background: white; 
   /* text-align: center; */
 }
 
 .settingsinner2 {
   position: absolute;
-  /* text-align: center; */
-  top: 30%;
-  left: 32%;
-  right: 30%;
+  text-align: center;
+  top: 24%;
+  left: 0%;
+  right: 0%;
 }
 
 .addMoney {
   font-size: 35px;
-  padding-bottom: 15%;
+  padding-bottom: 8%;
 }
 
 .fields.form {
-  text-align: center;
-  /* position: absolute;
-  top: 20%;
+  /* text-align: center; */
+  position: absolute;
+  /* top: 60%; */
   left: 30%;
-  right: 30%; */
+  right: 30%;
+
+}
+
+/* --------------------------------------------- */
+
+.welcome {
+  position: fixed;
+  top: 24%;
+  left: 21%;
+  right: 21%;
+  font-size: 300px;
+  font-family: 'Geostar Fill', cursive;
+  text-align: center;
+}
+
+.welcomestartk {
+  margin-bottom: 15%;
 }

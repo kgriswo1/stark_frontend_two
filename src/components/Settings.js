@@ -18,22 +18,26 @@ class Settings extends React.Component {
         this.props.closePopup()
     }
 
+    onClickHandler = (e) => {
+        if (e.target.className === "settings") {
+            this.props.closePopup()
+        }
+    }
+
     render() {
         return (
-            <div className="settings" onClick={this.props.closePopup}>
+            <div className="settings" onClick={this.onClickHandler}>
                 <div className="ui form settingsinner">
                     <div className="settingsinner2">
                         <div className="addMoney">Add Money</div>
-                        {/* <div>Current Amount: {this.props.money}</div> */}
+                        <div>Current Amount: {this.props.money}</div>
                         <form onSubmit={this.submitHandler} className="fields form">
-                            {/* <label>Add Money</label> */}
-                            <br/>
                             <div className="field">
                                 <input type="number" name="money" placeholder="amount" onChange={this.addMoneyChangeHandler} />
                             </div>
                             
-                            <button class="ui icon button">
-                                <i class="plus square icon"></i>
+                            <button className="ui icon button">
+                                <i className="plus square icon"></i>
                             </button>
                         </form>
                     </div>

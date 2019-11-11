@@ -9,7 +9,7 @@ class SellStock extends React.Component {
             quantity: localStorage.quantity,
             date: localStorage.date,
             price: localStorage.price,
-            sold: null,
+            sold: localStorage.sold,
             id: localStorage.id
         },
         currentPrice: localStorage.currentPrice
@@ -17,22 +17,42 @@ class SellStock extends React.Component {
 
     inputQuantity = (e) => {
         let changedInfo = {...this.state.newInfo}
-        changedInfo.sold = e.target.value
+        changedInfo.sold = parseInt(changedInfo.sold) + parseInt(e.target.value)
+        // debugger
         this.setState({
             newInfo: changedInfo
         })
     }
 
+    onSubmitHandler = (e) => {
+        e.preventDefault()
+        this.props.sellStock(this.state.newInfo)
+        this.props.closePopup()
+    }
+
+    onClickHandler = (e) => {
+        if (e.target.className === "settings") {
+            this.props.closePopup()
+            localStorage.clear()
+            localStorage.user_id = this.state.newInfo.user_id
+        }
+    }
+
     render() {
         return (
-            <div>
-                <h1>Sell Stock: {localStorage.ticker}</h1>
-                <p>Wealth: ${this.props.money}</p>
-                <p>Stock Price: {localStorage.currentPrice}</p>
-                <form onSubmit={(e) => this.props.sellStock(e, this.state.newInfo)}>
-                    <input type="number" placeholder="enter quantity" min="0" onChange={this.inputQuantity}/>
-                    <button type="submit">Sell Stock</button>
-                </form>
+            <div className="settings" onClick={this.onClickHandler}>
+                <div className="ui form settingsinner">
+                    <div className="settingsinner2">
+                        <div className="addMoney">Wealth: ${this.props.money}</div>
+                        <div>Stock Price: {localStorage.price}</div>
+                        <form onSubmit={this.onSubmitHandler} className="fields form">
+                            <div className="field">
+                                <input type="number" placeholder="quantity" min="0" onChange={this.inputQuantity}/>
+                            </div>
+                            <button className="ui black button">Sell</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         )
     }

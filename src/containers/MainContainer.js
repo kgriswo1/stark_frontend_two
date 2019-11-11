@@ -1,12 +1,12 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Home from './Home'
 import WatchList from './WatchList'
 import Profile from './Profile'
-import Settings from '../components/Settings'
-import BuyStock from '../components/BuyStock'
-import SellStock from '../components/SellStock'
 import NavBar from './NavBar'
+import Chart from '../components/Chart'
+import Welcome from '../components/Welcome'
+
 
 class MainContainer extends React.Component {
 
@@ -57,7 +57,7 @@ class MainContainer extends React.Component {
             MA: ["Mastercard", "https://www.ideabook.com/wp-content/uploads/2016/07/mastercard.jpg"],
             PYPL: ["Paypal", "https://apkdz.com/wp-content/uploads/2019/07/Download-PayPal-Mobile-Cash-Send-and-Request-Money-Fast-7.11.0-APK.png"],
             V: ["Visa", "https://amanz.my/wp-content/uploads/2018/06/visa-logo-650x650.jpg"],
-            NKE: ["Nike", "https://pbs.twimg.com/profile_images/953320896101412864/UdE5mfkP_400x400.jpg"]
+            NKE: ["Nike", "https://pbs.twimg.com/profile_images/953320896101412864/UdE5mfkP_400x400.jpg"],
         }
     }
 
@@ -611,10 +611,11 @@ class MainContainer extends React.Component {
                 <Switch>
                     <Route path="/watchlists" render={() => <WatchList logos={this.state.logos} watchlists={this.props.watchlists} removeFromWatchlist={this.props.removeFromWatchlist}/>} />
                     <Route path="/profile" render={() => <Profile money={this.props.money} addMoneySubmitHandler={this.props.addMoneySubmitHandler} current_user={this.props.current_user} myStocks={this.props.myStocks} logos={this.state.logos}/> } />
-                    {/* <Route path="/settings" render={() => <Settings money={this.props.money} addMoneySubmitHandler={this.props.addMoneySubmitHandler}/>} /> */}
-                    <Route path="/buystock" render={() => <BuyStock logos={this.state.logos} money={this.props.money} addToMyStocks={this.props.addToMyStocks}/>} />
-                    <Route path="/sellstock" render={() => <SellStock money={this.props.money} sellStock={this.props.sellStock}/>} />
-                    <Route path="/stocks" render={() => <Home myStocks={this.props.myStocks} stocks={this.state.stocks} addToWatchList={this.props.addToWatchList} logos={this.state.logos}/>} />
+                    {/* <Route path="/sellstock" render={() => <SellStock money={this.props.money} sellStock={this.props.sellStock}/>} /> */}
+                    <Route path="/stocks" render={() => <Home myStocks={this.props.myStocks} sellStock={this.props.sellStock} money={this.props.money} addToMyStocks={this.props.addToMyStocks} stocks={this.state.stocks} addToWatchList={this.props.addToWatchList} logos={this.state.logos}/>} />
+                    {/* <Route path="/chartTwo" render={() => <ChartTwo data={this.state.data} />} /> */}
+
+                    <Route path="/" component={Welcome} />
                 </Switch>
             </div>
         )

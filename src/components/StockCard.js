@@ -19,6 +19,8 @@ class Stock extends React.Component {
     }
 
     render() {
+        console.log(this.props.logos)
+        // debugger
         return (
             <div className="card">
                 <div className="blurring dimmable image" onMouseEnter={this.changeToActive} onMouseLeave={this.changeToInActive}>
