@@ -1,7 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import Popup from './Popup'
+import Settings from './Settings'
 
 class SideBar extends React.Component {
+
+    state = {
+        showPopup: false
+    }
+
+    togglePopup = () => {  
+        this.setState({  
+            showPopup: !this.state.showPopup  
+        });  
+    }
 
     render() {
         console.log(this.props.current_user)
@@ -20,7 +32,12 @@ class SideBar extends React.Component {
                                     <br/>
                                     <div className="header profile"><i className="dollar sign icon"></i>&nbsp;{this.props.current_user.money}</div>
                                     <br/>
-                                    <Link to="/settings" className="header profile"><i className="plus square icon"></i>&nbsp;Add Money</Link>
+                                    <Link onClick={this.togglePopup} className="header profile"><i className="plus square icon"></i>&nbsp;Add Money</Link>
+                                    {/* <button onClick={this.togglePopup.bind(this)}> Click To Launch Popup</button>  */}
+                                    {this.state.showPopup ?  
+                                        <Settings money={this.props.money} addMoneySubmitHandler={this.props.addMoneySubmitHandler} closePopup={this.togglePopup} />  
+                                        : null  
+                                    }
                                 </div>
                             </div>
                         </div>

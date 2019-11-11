@@ -38,7 +38,8 @@ body {
 
 .signinDiv {
   text-align: center;
-  left: 42%;
+  left: 38%;
+  right: 38%;
   position: fixed;
   top: 32%;
 }
@@ -57,6 +58,7 @@ body {
   position: fixed;
   top: 32%;
   left: 34%;
+  right: 34%;
 }
 
 .ui.form input:not([type]), .ui.form input[type=date], .ui.form input[type=datetime-local], .ui.form input[type=email], .ui.form input[type=file], .ui.form input[type=number], .ui.form input[type=password], .ui.form input[type=search], .ui.form input[type=tel], .ui.form input[type=text], .ui.form input[type=time], .ui.form input[type=url] {
@@ -80,8 +82,9 @@ body {
 
 .stocks {
   display: grid;
+  position: absolute;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  margin-top: -3%;
+  top: 10%;
 }
 
 .ui.card {
@@ -128,7 +131,7 @@ body {
   height: 100%; /* Full-height: remove this if you want "auto" height */
   width: 19rem; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-  z-index: 1; /* Stay on top */
+  z-index: 2; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
   background-color: #22232a; /* Black */
@@ -139,8 +142,12 @@ body {
 .stocksProfile {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  margin-left: 15%;
-  margin-top: -3%;
+  position: absolute;
+  top: 15%;
+  left: 19%;
+  /* margin-left: 15%;
+  margin-top: -3%; */
+  /* margin-left: -5%; */
 }
 
 .ui.card {
@@ -173,7 +180,9 @@ i.black.icon {
   text-align: center;
   position: absolute;
   top: 10%;
-  left: 29%;
+  left: 25%;
+  right: 25%;
+  margin-bottom: 5%;
 
   /* font-family: "Times New Roman"; */
 }
@@ -211,4 +220,87 @@ i.black.icon {
   background: white;
   color: black;
   transition: 250ms background ease-in;
+}
+
+.empty {
+  text-align: center;
+  position: fixed;
+  top: 30%;
+  left: 10%;
+  right: 10%;
+}
+
+.emptyheader {
+  font-family: "Times New Roman";
+  font-size: 70px;
+  color: black;
+}
+
+.watchlist {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.ui.special.cards {
+  position: absolute;
+  top: 10%;
+  text-align: center;
+  /* padding: 5%; */
+  left: 0%;
+  right: 0%;
+}
+
+.ui.cards>.card {
+  margin-left: 4em;
+  margin-top: 4em;
+}
+
+/* ----------------------------------------- */
+/* Pop Up */
+
+.settings {  
+  position: fixed;  
+  z-index: 3;
+  width: 100%;  
+  height: 100%;  
+  top: 0%;  
+  left: 0%;  
+  right: 0%;  
+  /* bottom: 0;   */
+  /* margin: auto;   */
+  background-color: rgba(0, 0, 0, 0.897); 
+  /* text-align: center; */
+} 
+
+.ui.form.settingsinner {  
+  position: absolute;  
+  left: 33%;  
+  right: 33%;  
+  top: 10%;
+  bottom: 40%;  
+  margin-top: 10%;  
+  border-radius: 20px;  
+  background: white; 
+  /* text-align: center; */
+}
+
+.settingsinner2 {
+  position: absolute;
+  /* text-align: center; */
+  top: 30%;
+  left: 32%;
+  right: 30%;
+}
+
+.addMoney {
+  font-size: 35px;
+  padding-bottom: 15%;
+}
+
+.fields.form {
+  text-align: center;
+  /* position: absolute;
+  top: 20%;
+  left: 30%;
+  right: 30%; */
 }

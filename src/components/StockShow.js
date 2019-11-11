@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import MyStock from './MyStock';
+import empty from '../empty.png'
 
 class StockShow extends React.Component {
     // _isMounted = false
@@ -113,7 +114,13 @@ class StockShow extends React.Component {
                            
                         </>
                     ) : 
-                    (<h1>you don't have any stocks</h1>)
+                    ( 
+                        <div> 
+                            <br/>
+                            <img src={empty} />
+                            {/* <div>You do not own this stock</div> */}
+                        </div>
+                    )
                 }
                 
             </div>

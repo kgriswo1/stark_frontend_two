@@ -20,7 +20,7 @@ class Profile extends React.Component {
     let stocksArray = this.grabStocks().map(stock => <Stock key={stock.id} stock={stock} logos={this.props.logos}/>)
     return (
       <div className="profile">
-        <SideBar current_user={this.props.current_user}/>
+        <SideBar current_user={this.props.current_user} money={this.props.money} addMoneySubmitHandler={this.props.addMoneySubmitHandler}/>
         <div className="stocksProfile">
           {stocksArray}
         </div>

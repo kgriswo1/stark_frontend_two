@@ -1,14 +1,26 @@
 import React from 'react';
 import StockCard from '../components/StockCard'
+import empty from '../empty.png'
 
 class WatchList extends React.Component {
 
   render() {
-    let stocksArray = this.props.watchlists.map(stock => <StockCard key={stock.id} stock={stock} removeFromWatchlist={this.props.removeFromWatchlist}/>)
+    let stocksArray = this.props.watchlists.map(stock => <StockCard key={stock.id} logos={this.props.logos} stock={stock} removeFromWatchlist={this.props.removeFromWatchlist}/>)
     return (
-      <div>
-        <h1>WatchList</h1>
-        {stocksArray}
+      <div className="watchlist">
+        {this.props.watchlists.length > 0 ? 
+          (
+            <div className="ui special cards">
+              {stocksArray}
+            </div>
+          ) : 
+          (
+            <div className="empty" >
+              <h2 className="emptyheader">You Have No Watched Stocks</h2>
+              <img src={empty} />
+            </div>
+          )
+        }
       </div>
     )
   }

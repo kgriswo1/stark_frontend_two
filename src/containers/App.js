@@ -135,10 +135,9 @@ class App extends React.Component {
     }))
   }
 
-  addMoneySubmitHandler = (e, amount) => {
-    e.preventDefault() 
+  addMoneySubmitHandler = (amount) => {
     this.increaseMoney(amount)
-    e.target.reset()
+    // e.target.reset()
   }
 
   increaseMoney = (amount) => {
