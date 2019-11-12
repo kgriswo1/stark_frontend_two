@@ -4,8 +4,10 @@ import Home from './Home'
 import WatchList from './WatchList'
 import Profile from './Profile'
 import NavBar from './NavBar'
-import Chart from '../components/Chart'
 import Welcome from '../components/Welcome'
+
+
+import Chart from '../components/Chart'
 
 
 class MainContainer extends React.Component {
@@ -613,7 +615,7 @@ class MainContainer extends React.Component {
                     <Route path="/profile" render={() => <Profile money={this.props.money} addMoneySubmitHandler={this.props.addMoneySubmitHandler} current_user={this.props.current_user} myStocks={this.props.myStocks} logos={this.state.logos}/> } />
                     {/* <Route path="/sellstock" render={() => <SellStock money={this.props.money} sellStock={this.props.sellStock}/>} /> */}
                     <Route path="/stocks" render={() => <Home myStocks={this.props.myStocks} sellStock={this.props.sellStock} money={this.props.money} addToMyStocks={this.props.addToMyStocks} stocks={this.state.stocks} addToWatchList={this.props.addToWatchList} logos={this.state.logos}/>} />
-                    {/* <Route path="/chartTwo" render={() => <ChartTwo data={this.state.data} />} /> */}
+                    <Route path="/chart" render={() => <Chart />} />
 
                     <Route path="/" component={Welcome} />
                 </Switch>

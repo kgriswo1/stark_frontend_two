@@ -1,121 +1,105 @@
-import React from "react";
-import { VictoryChart, VictoryZoomContainer, VictoryLine, VictoryAxis, VictoryBrushContainer } from "victory";
-import ReactDOM from 'react-dom';
+import React from 'react';
+import Plot from 'react-plotly.js';
 
 class Chart extends React.Component {
 
     state = {
-      stock: []
-    }
-  
-    handleZoom(domain) {
-      this.setState({
-        selectedDomain: domain
-      });
-    }
-  
-    handleBrush(domain) {
-      this.setState({
-        zoomDomain: domain
-      });
+        xValues: [],
+        closeValues: [],
+        highValues: [],
+        lowValues: [],
+        openValues: []
     }
 
-    componentDidMount = () => {
-      fetch("https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=MSFT&apikey=demo")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          stock: data["Monthly Adjusted Time Series"]
-        })}
-      )
+    componentDidMount() {
+        this.fetchStock()
     }
 
-    createGraph = () => {
-      let data = []
+    fetchStock = () => {
+        fetch(`http://localhost:3000/MonthlyAdjustedTimeSeries`)
+        .then(response => response.json())
+        .then(data => {
+            let keys = Object.keys(data)
+            this.setState({
+                xValues: keys
+            })
 
-      Object.keys(this.state.stock).forEach(key => {
-        let y = key.slice(0, 4)
-        let m = key.slice(5, 7)
-        let d = key.slice(8, 10)
+            this.state.xValues.forEach(key => {
+                 let newClose = [...this.state.closeValues, parseInt(data[key]["4. close"])]
+                 let newHigh = [...this.state.highValues, parseInt(data[key]["2. high"])]
+                 let newLow = [...this.state.lowValues, parseInt(data[key]["3. low"])]
+                 let newOpen = [...this.state.openValues, parseInt(data[key]["1. open"])]
 
-        let price = parseInt(this.state.stock[key]["1. open"])
-        let hash = {x: new Date(y, m, d), y: price}
-        data.push(hash)
-      })
-
-      return data
+                this.setState({
+                    closeValues: newClose,
+                    highValues: newHigh,
+                    lowValues: newLow,
+                    openValues: newOpen
+                })
+            });
+        })
     }
-  
+
     render() {
-      return (
-        <div>
-            <VictoryChart width={600} height={350} scale={{x: "time"}}
-              containerComponent={
-                <VictoryZoomContainer responsive={false}
-                  zoomDimension={"x"}
-                  zoomDomain={this.state.zoomDomain}
-                  // zoomDomain={{x: [5, 35], y: [0, 100]}}
-                  onZoomDomainChange={this.handleZoom.bind(this)}
-                />
-              }
-            >
-              <VictoryLine
-                style={{
-                  data: {stroke: "tomato"}
-                }}
-                data={this.createGraph()}
-              />
-  
-            </VictoryChart>
-  
-            <VictoryChart
-              padding={{top: 0, left: 50, right: 50, bottom: 30}}
-              width={600} height={90} scale={{x: "time"}}
-              containerComponent={
-                <VictoryBrushContainer responsive={false}
-                  brushDimension="x"
-                  brushDomain={this.state.selectedDomain}
-                  onBrushDomainChange={this.handleBrush.bind(this)}
-                />
-              }
-            >
-              <VictoryAxis
-                tickValues={[
-                  new Date(1999, 1, 1),
-                  new Date(2000, 1, 1),
-                  new Date(2001, 1, 1),
-                  new Date(2002, 1, 1),
-                  new Date(2003, 1, 1),
-                  new Date(2004, 1, 1),
-                  new Date(2005, 1, 1),
-                  new Date(2006, 1, 1),
-                  new Date(2005, 1, 1),
-                  new Date(2007, 1, 1),
-                  new Date(2008, 1, 1),
-                  new Date(2009, 1, 1),
-                  new Date(2010, 1, 1),
-                  new Date(2011, 1, 1),
-                  new Date(2012, 1, 1),
-                  new Date(2013, 1, 1),
-                  new Date(2014, 1, 1),
-                  new Date(2015, 1, 1),
-                  new Date(2016, 1, 1),
-                  new Date(2017, 1, 1),
-                  new Date(2018, 1, 1),
-                  new Date(2019, 1, 1),
-                ]}
-                tickFormat={(x) => new Date(x).getFullYear()}
-              />
-              <VictoryLine
-                style={{
-                  data: {stroke: "tomato"}
-                }}
-                data={this.createGraph()}
-              />
-            </VictoryChart>
-        </div>
-      );
+        console.log(this.state)
+        return (
+            <>
+                {this.state.xValues.length > 239 ? 
+                    (
+                        <div>
+                            <Plot
+                                data={[
+                                    {
+                                        x: this.state.xValues,
+                                        close: this.state.closeValues,
+
+                                        decreasing: {line: {color: '#7F7F7F'}}, 
+
+                                        high: this.state.highValues,
+
+                                        increasing: {line: {color: '#17BECF'}}, 
+                                        line: {color: 'rgba(31,119,180,1)'},
+
+                                        low: this.state.lowValues,
+                                        open: this.state.openValues,
+                                        type: 'candlestick',
+                                        xaxis: 'x', 
+                                        yaxis: 'y',
+                                    }
+                                ]}
+                                layout = {{
+                                    dragmode: 'zoom', 
+                                    margin: {
+                                    r: 10, 
+                                    t: 25, 
+                                    b: 40, 
+                                    l: 60
+                                    }, 
+                                    showlegend: false, 
+                                    xaxis: {
+                                    autorange: true, 
+                                    domain: [0, 1], 
+                                    range: ['1999-12-31 12:00', '2019-11-11 12:00'], 
+                                    rangeslider: {range: ['1999-12-31 12:00', '2019-11-11 12:00']}, 
+                                    title: 'Date', 
+                                    type: 'date'
+                                    }, 
+                                    yaxis: {
+                                    autorange: true, 
+                                    domain: [0, 1], 
+                                    range: [20, 300], 
+                                    type: 'linear'
+                                    }
+                                }}
+                            />
+                        </div>
+
+                    ) : 
+                    (<h1>loading</h1>)
+                }
+            </>
+        )
     }
 }
-  
-export default Chart
+
+export default Chart;

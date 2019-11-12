@@ -1,212 +1,231 @@
 import React from "react";
-import PropTypes from "prop-types";
+import { VictoryChart, VictoryZoomContainer, VictoryLine, VictoryAxis, VictoryBrushContainer } from "victory";
 
-import { format } from "d3-format";
-import { timeFormat } from "d3-time-format";
+class ChartTwo extends React.Component {
 
-import { ChartCanvas, Chart } from "react-stockcharts";
-import {
-	BarSeries,
-	CandlestickSeries,
-	LineSeries
-} from "react-stockcharts/lib/series";
-import { XAxis, YAxis } from "react-stockcharts/lib/axes";
-import { EdgeIndicator } from "react-stockcharts/lib/coordinates";
+    state = {
+      stock: []
+    }
+  
+    handleZoom(domain) {
+      this.setState({
+        selectedDomain: domain
+      });
+    }
+  
+    handleBrush(domain) {
+      this.setState({
+        zoomDomain: domain
+      });
+    }
 
-import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
-import { HoverTooltip } from "react-stockcharts/lib/tooltip";
-import { ema } from "react-stockcharts/lib/indicator";
-import { fitWidth } from "react-stockcharts/lib/helper";
-import { last } from "react-stockcharts/lib/utils";
+    componentDidMount = () => {
+      fetch("https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=MSFT&apikey=demo")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          stock: data["Monthly Adjusted Time Series"]
+        })}
+      )
+    }
 
-const dateFormat = timeFormat("%Y-%m-%d");
-const numberFormat = format(".2f");
+    createGraph = () => {
+      let data = []
 
-function tooltipContent(ys) {
-	return ({ currentItem, xAccessor }) => {
-		return {
-			x: dateFormat(xAccessor(currentItem)),
-			y: [
-				{
-					label: "open",
-					value: currentItem.open && numberFormat(currentItem.open)
-				},
-				{
-					label: "high",
-					value: currentItem.high && numberFormat(currentItem.high)
-				},
-				{
-					label: "low",
-					value: currentItem.low && numberFormat(currentItem.low)
-				},
-				{
-					label: "close",
-					value: currentItem.close && numberFormat(currentItem.close)
-				}
-			]
-				.concat(
-					ys.map(each => ({
-						label: each.label,
-						value: each.value(currentItem),
-						stroke: each.stroke
-					}))
-				)
-				.filter(line => line.value)
-		};
-	};
+      Object.keys(this.state.stock).forEach(key => {
+        let y = key.slice(0, 4)
+        let m = key.slice(5, 7)
+        let d = key.slice(8, 10)
+
+        let price = parseInt(this.state.stock[key]["1. open"])
+        let hash = {x: new Date(y, m, d), y: price}
+        data.push(hash)
+      })
+
+      return data
+    }
+  
+    render() {
+      return (
+        <div>
+            <VictoryChart width={600} height={350} scale={{x: "time"}}
+              containerComponent={
+                <VictoryZoomContainer responsive={false}
+                  zoomDimension={"x"}
+                  zoomDomain={this.state.zoomDomain}
+                  // zoomDomain={{x: [5, 35], y: [0, 100]}}
+                  onZoomDomainChange={this.handleZoom.bind(this)}
+                />
+              }
+            >
+              <VictoryLine
+                style={{
+                  data: {stroke: "tomato"}
+                }}
+                data={this.createGraph()}
+              />
+  
+            </VictoryChart>
+  
+            <VictoryChart
+              padding={{top: 0, left: 50, right: 50, bottom: 30}}
+              width={600} height={90} scale={{x: "time"}}
+              containerComponent={
+                <VictoryBrushContainer responsive={false}
+                  brushDimension="x"
+                  brushDomain={this.state.selectedDomain}
+                  onBrushDomainChange={this.handleBrush.bind(this)}
+                />
+              }
+            >
+              <VictoryAxis
+                tickValues={[
+                  new Date(1999, 1, 1),
+                  new Date(2000, 1, 1),
+                  new Date(2001, 1, 1),
+                  new Date(2002, 1, 1),
+                  new Date(2003, 1, 1),
+                  new Date(2004, 1, 1),
+                  new Date(2005, 1, 1),
+                  new Date(2006, 1, 1),
+                  new Date(2005, 1, 1),
+                  new Date(2007, 1, 1),
+                  new Date(2008, 1, 1),
+                  new Date(2009, 1, 1),
+                  new Date(2010, 1, 1),
+                  new Date(2011, 1, 1),
+                  new Date(2012, 1, 1),
+                  new Date(2013, 1, 1),
+                  new Date(2014, 1, 1),
+                  new Date(2015, 1, 1),
+                  new Date(2016, 1, 1),
+                  new Date(2017, 1, 1),
+                  new Date(2018, 1, 1),
+                  new Date(2019, 1, 1),
+                ]}
+                tickFormat={(x) => new Date(x).getFullYear()}
+              />
+              <VictoryLine
+                style={{
+                  data: {stroke: "tomato"}
+                }}
+                data={this.createGraph()}
+              />
+            </VictoryChart>
+        </div>
+      );
+    }
 }
+  
+export default ChartTwo
 
-const keyValues = ["high", "low"];
+// import React from 'react';
+// import Plot from 'react-plotly.js';
 
-class CandleStickChartWithHoverTooltip extends React.Component {
-	removeRandomValues(data) {
-		return data.map(item => {
-			const newItem = { ...item };
-			const numberOfDeletion =
-				Math.floor(Math.random() * keyValues.length) + 1;
-			for (let i = 0; i < numberOfDeletion; i += 1) {
-				const randomKey =
-					keyValues[Math.floor(Math.random() * keyValues.length)];
-				newItem[randomKey] = undefined;
-			}
-			return newItem;
-		});
-	}
+// class Chart extends React.Component {
+//     state = {
+//         xValues: [],
+//         closeValues: [],
+//         highValues: [],
+//         lowValues: [],
+//         openValues: []
+//     }
 
-	render() {
-		let { type, data: initialData, width, ratio } = this.props;
 
-		// remove some of the data to be able to see
-		// the tooltip resize
-		initialData = this.removeRandomValues(initialData);
+//     componentDidMount() {
+//         this.fetchStock();
+//     }
 
-		const ema20 = ema()
-			.id(0)
-			.options({ windowSize: 20 })
-			.merge((d, c) => {
-				d.ema20 = c;
-			})
-			.accessor(d => d.ema20);
+//     fetchStock() {
+//         const pointerToThis = this;
+//         // console.log(pointerToThis);
+//         let StockSymbol = 'FB';
+//         let API_Call = `https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY_ADJUSTED&symbol=MSFT&apikey=HGJWFG4N8AQ66ICD`;
+//         let x_values = [];
+//         let close_values = [];
+//         let high_values = [];
+//         let low_values = [];
+//         let open_values = []
 
-		const ema50 = ema()
-			.id(2)
-			.options({ windowSize: 50 })
-			.merge((d, c) => {
-				d.ema50 = c;
-			})
-			.accessor(d => d.ema50);
+//         fetch(API_Call)
+//         .then(response => response.json())
+//         .then(
+//             function(data) {
+//                 for (var key in data["Monthly Adjusted Time Series"]) {
+//                     x_values.push(key);
+//                     close_values.push(data["Monthly Adjusted Time Series"][key]["4. close"]);
+//                     high_values.push(data["Monthly Adjusted Time Series"][key]["2. high"]);
+//                     low_values.push(data["Monthly Adjusted Time Series"][key]["3. low"]);
+//                     open_values.push(data["Monthly Adjusted Time Series"][key]["1. open"]);
+//                 }
 
-		const margin = { left: 80, right: 80, top: 30, bottom: 50 };
+//                 // console.log(stockChartXValuesFunction);
+//                 pointerToThis.setState({
+//                     xValues: x_values,
+//                     closeValues: close_values,
+//                     highValues: high_values,
+//                     lowValues: low_values,
+//                     openValues: open_values
+//                 });
+//             }
+//         )
+//     }
 
-		const calculatedData = ema50(ema20(initialData));
-		const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
-			d => d.date
-		);
-		const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(
-			calculatedData
-		);
+//     render() {
+        
+//         return (
+//         <div>
+//             <h1>Stock Market</h1>
+//             <Plot
+//                 data={[
+//                     {
+//                         x: this.state.xValues,
+//                         close: this.state.closeValues,
 
-		const start = xAccessor(last(data));
-		const end = xAccessor(data[Math.max(0, data.length - 150)]);
-		const xExtents = [start, end];
+//                         // decreasing: {line: {color: '#7F7F7F'}}, 
 
-		return (
-			<ChartCanvas
-				height={400}
-				width={width}
-				ratio={ratio}
-				margin={margin}
-				type={type}
-				seriesName="MSFT"
-				data={data}
-				xScale={xScale}
-				xAccessor={xAccessor}
-				displayXAccessor={displayXAccessor}
-				xExtents={xExtents}
-			>
-				<Chart
-					id={1}
-					yExtents={[
-						d => [d.high, d.low],
-						ema20.accessor(),
-						ema50.accessor()
-					]}
-					padding={{ top: 10, bottom: 20 }}
-				>
-					<XAxis axisAt="bottom" orient="bottom" />
+//                         highValues: this.state.highValues,
 
-					<YAxis axisAt="right" orient="right" ticks={5} />
+//                         // increasing: {line: {color: '#17BECF'}}, 
+//                         // line: {color: 'rgba(31,119,180,1)'},
 
-					<CandlestickSeries />
-					<LineSeries
-						yAccessor={ema20.accessor()}
-						stroke={ema20.stroke()}
-					/>
-					<LineSeries
-						yAccessor={ema50.accessor()}
-						stroke={ema50.stroke()}
-					/>
+//                         lowValues: this.state.lowValues,
+//                         openValues: this.state.openValues,
+//                         type: 'candlestick',
+//                         xaxis: 'x', 
+//                         yaxis: 'y',
+//                         mode: 'lines+markers',
+//                         marker: {color: 'red'},
+//                     }
+//                 ]}
+//                 layout = {{
+//                     dragmode: 'zoom', 
+//                     margin: {
+//                       r: 10, 
+//                       t: 25, 
+//                       b: 40, 
+//                       l: 60
+//                     }, 
+//                     showlegend: false, 
+//                     xaxis: {
+//                       autorange: true, 
+//                       domain: [0, 1], 
+//                       range: ['1999-12-31 12:00', '2019-11-11 12:00'], 
+//                       rangeslider: {range: ['1999-12-31 12:00', '2019-11-11 12:00']}, 
+//                       title: 'Date', 
+//                       type: 'date'
+//                     }, 
+//                     yaxis: {
+//                       autorange: true, 
+//                       domain: [0, 1], 
+//                       range: [0, 300], 
+//                       type: 'linear'
+//                     }
+//                 }}
+//             />
+//         </div>
+//         )
+//     }
+// }
 
-					<EdgeIndicator
-						itemType="last"
-						orient="right"
-						edgeAt="right"
-						yAccessor={d => d.close}
-						fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
-					/>
-
-					<HoverTooltip
-						yAccessor={ema50.accessor()}
-						tooltipContent={tooltipContent([
-							{
-								label: `${ema20.type()}(${ema20.options()
-									.windowSize})`,
-								value: d => numberFormat(ema20.accessor()(d)),
-								stroke: ema20.stroke()
-							},
-							{
-								label: `${ema50.type()}(${ema50.options()
-									.windowSize})`,
-								value: d => numberFormat(ema50.accessor()(d)),
-								stroke: ema50.stroke()
-							}
-						])}
-						fontSize={15}
-					/>
-				</Chart>
-				<Chart
-					id={2}
-					yExtents={[d => d.volume]}
-					height={150}
-					origin={(w, h) => [0, h - 150]}
-				>
-					<YAxis
-						axisAt="left"
-						orient="left"
-						ticks={5}
-						tickFormat={format(".2s")}
-					/>
-
-					<BarSeries
-						yAccessor={d => d.volume}
-						fill={d => (d.close > d.open ? "#6BA583" : "#FF0000")}
-					/>
-				</Chart>
-			</ChartCanvas>
-		);
-	}
-}
-
-CandleStickChartWithHoverTooltip.propTypes = {
-	data: PropTypes.array.isRequired,
-	width: PropTypes.number.isRequired,
-	ratio: PropTypes.number.isRequired,
-	type: PropTypes.oneOf(["svg", "hybrid"]).isRequired
-};
-
-CandleStickChartWithHoverTooltip.defaultProps = {
-	type: "svg"
-};
-CandleStickChartWithHoverTooltip = fitWidth(CandleStickChartWithHoverTooltip);
-
-export default CandleStickChartWithHoverTooltip;
+// export default Chart;
