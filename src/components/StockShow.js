@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import MyStock from './MyStock';
 import empty from '../empty.png'
 import Buystock from './BuyStock'
+import Chart from './Chart';
 
 class StockShow extends React.Component {
     // _isMounted = false
@@ -98,13 +99,7 @@ class StockShow extends React.Component {
                     </tbody>
 
                 </table>
-                {/* <Link to={"/buystock"} >
-                    <button className="ui black button" onClick={() => {
-                        localStorage.ticker = this.state.showStock["01. symbol"]
-                        localStorage.date = this.state.showStock["07. latest trading day"]
-                        localStorage.price = this.state.showStock["05. price"]
-                    }}><i className="cart plus icon"></i>Buy</button>
-                </Link> */}
+
                 <button className="ui black button" onClick={this.onClickHandler}>
                     <i className="cart plus icon"></i>Buy
                 </button>
@@ -115,6 +110,9 @@ class StockShow extends React.Component {
                 }
 
                 <button className="ui black button" onClick={() => {this.props.addToWatchList(this.state.showStock["01. symbol"])}}><i className="eye icon"></i>Add To Watchlist</button>
+
+
+                <Chart ticker={this.props.ticker}/>
 
                 { this.stocksOwned().length > 0 ? 
                     (   <>
@@ -155,3 +153,10 @@ class StockShow extends React.Component {
 
 export default StockShow
 
+{/* <Link to={"/buystock"} >
+    <button className="ui black button" onClick={() => {
+        localStorage.ticker = this.state.showStock["01. symbol"]
+        localStorage.date = this.state.showStock["07. latest trading day"]
+        localStorage.price = this.state.showStock["05. price"]
+    }}><i className="cart plus icon"></i>Buy</button>
+</Link> */}

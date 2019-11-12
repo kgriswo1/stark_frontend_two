@@ -42,7 +42,7 @@ class MainContainer extends React.Component {
             PINS: ["Pinterest", "http://www.vectorico.com/?wpfilebase_thumbnail=1&fid=126&name=Pinterest-Icon-Square.png"],
             BAC: ["Bank Of America", "https://modsforandroid.com/wp-content/uploads/2018/12/Download-Bank-of-America-Mobile-Banking.png"],
             MS: ["Morgan Stanley", "https://www.fintechfutures.com/files/2016/04/Morgan-Stanley.png"],
-            HDB: ["HDFC Bank Limited", "https://apkdl.in/apkimage/L6wGFQZjGcAmPmCw8g3qhG_5xTD1LLx9KJA8wP_d73nJadC535D_m3LNLbRqaITNBpA"],
+            HSY: ["Hershey", "https://www.paredro.com/wp-content/uploads/2014/08/Captura-de-pantalla-2014-08-29-a-las-16.33.23.png"],
             JCP: ["JC Penny", "https://kc1385.files.wordpress.com/2014/03/bad-logo-2.jpg"],
             TGT: ["Target", "https://www.lionnelweb.com/blog/wp-content/uploads/2012/10/target-logo.png"],
             M: ["Macy's", "http://jtmichaels.com/wp-content/uploads/2014/11/macys-logo.png"],
@@ -91,7 +91,7 @@ class MainContainer extends React.Component {
         this.jsonFetchPINS()
         this.jsonFetchBAC()
         this.jsonFetchMS()
-        this.jsonFetchHDB()
+        this.jsonFetchHSY()
         this.jsonFetchJCP()
         this.jsonFetchTGT()
         this.jsonFetchM()
@@ -408,8 +408,8 @@ class MainContainer extends React.Component {
         })
     }
 
-    jsonFetchHDB = () => {
-        fetch("http://localhost:3000/HDB")
+    jsonFetchHSY = () => {
+        fetch("http://localhost:3000/HSY")
         .then(response => response.json())
         .then(data => {
             let newArray = [...this.state.stocks, data]

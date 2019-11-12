@@ -2,6 +2,7 @@ import React from 'react';
 import Stock from '../components/Stock'
 import { Route, Switch } from 'react-router-dom'
 import StockShow from '../components/StockShow'
+import Welcome from '../components/Welcome';
 
 
 class Home extends React.Component {
@@ -20,15 +21,20 @@ class Home extends React.Component {
         <Switch>
           <Route path="/stocks/:id" render={(routerProps) => {
             let ticker = routerProps.match.params.id
-            return <StockShow 
-              logos={this.props.logos} 
-              ticker={ticker} 
-              addToWatchList={this.props.addToWatchList} 
-              myStocks={this.props.myStocks}
-              money={this.props.money} 
-              addToMyStocks={this.props.addToMyStocks}
-              sellStock={this.props.sellStock}
-            />
+            let stock = Object.keys(this.props.logos).includes(ticker)
+            if (stock ) {
+              return <StockShow 
+                logos={this.props.logos} 
+                ticker={ticker} 
+                addToWatchList={this.props.addToWatchList} 
+                myStocks={this.props.myStocks}
+                money={this.props.money} 
+                addToMyStocks={this.props.addToMyStocks}
+                sellStock={this.props.sellStock}
+              />
+            } else {
+              return <Welcome />
+            }
           }}/>
 
           <Route path="/stocks" render={() => {
