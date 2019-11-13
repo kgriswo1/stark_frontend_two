@@ -16,35 +16,30 @@ class Chart extends React.Component {
     }
 
     fetchStock = () => {
-        let count = parseInt(localStorage.count)
+        // let count = parseInt(localStorage.count)
 
-        if (count === 0 || count < 19) {
-            localStorage.count = count + 1
-        } else {
-            localStorage.count = 0
-        }
+        // if (count === 0 || count < 19) {
+        //     localStorage.count = count + 1
+        // } else {
+        //     localStorage.count = 0
+        // }
         
 
-        let keys = [
-            "I6V3R1JT2X3OK2EP", "XY5PAWELIZYGVXL8", "693S76K473CIJP76", "VBT40L2QMZF5WAYA", "SG7VMXGQ9DGQ8V5N", 
-            "VYNXXWCYJE17LU4R", "49LCW88RE54082JP", "SNQKO6NXIBT362MD", "HQG2S66QRMHZQGS9", "RR9X8TO4J2HK4PWT",
-            "RJ3AABICJ5XENKZP", "MXRRYXLAYT5EPP3R", "9F5WBFIOF4AE9N0Y", "MMK69DOCL3W06TNR", "2AFC98157ERHTVED",
-            "50F376UOH6OGVQK3", "1CBTSV8QKRZPMEXN", "NYZF56GHXB0PEIJQ", "16LYR96N7AZAPJP2", "6N81L9WLIUD6COOU",
-            "16LYR96N7AZAPJP2", "ST4XUGEKRD1Q1WZB"
-        ]
+        // let keys = [
+        //     "I6V3R1JT2X3OK2EP", "XY5PAWELIZYGVXL8", "693S76K473CIJP76", "VBT40L2QMZF5WAYA", "SG7VMXGQ9DGQ8V5N", 
+        //     "VYNXXWCYJE17LU4R", "49LCW88RE54082JP", "SNQKO6NXIBT362MD", "HQG2S66QRMHZQGS9", "RR9X8TO4J2HK4PWT",
+        //     "RJ3AABICJ5XENKZP", "MXRRYXLAYT5EPP3R", "9F5WBFIOF4AE9N0Y", "MMK69DOCL3W06TNR", "2AFC98157ERHTVED",
+        //     "50F376UOH6OGVQK3", "1CBTSV8QKRZPMEXN", "NYZF56GHXB0PEIJQ", "16LYR96N7AZAPJP2", "6N81L9WLIUD6COOU",
+        //     "16LYR96N7AZAPJP2", "ST4XUGEKRD1Q1WZB"
+        // ]
         
-        let key = keys[count]
-        console.log(key)
-        console.log(count)
+        // let key = keys[count]
 
         // debugger
         fetch(`http://localhost:3000/${this.props.ticker}Monthly`)
         // fetch(`https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=${this.props.ticker}&apikey=${key}`)
         .then(response => response.json())
         .then(data => {
-            console.log("data", data)
-
-
             let keys = Object.keys(data)
             this.setState({
                 xValues: keys
@@ -63,8 +58,6 @@ class Chart extends React.Component {
                     openValues: newOpen
                 })
             });
-            
-
         })
     }
 

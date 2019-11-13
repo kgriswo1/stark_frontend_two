@@ -32,8 +32,8 @@ class Settings extends React.Component {
                         <div className="addMoney">Add Money</div>
                         <div>Current Amount: {this.props.money}</div>
                         <form onSubmit={this.submitHandler} className="fields form">
-                            <div className="field">
-                                <input type="number" name="money" placeholder="amount" onChange={this.addMoneyChangeHandler} />
+                            <div className="twelve wide field">
+                                <input type="number" name="money" min="1" max="100000" placeholder="amount" onChange={this.addMoneyChangeHandler} />
                             </div>
                             
                             <button className="ui icon button">

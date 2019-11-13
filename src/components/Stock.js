@@ -15,6 +15,7 @@ class Stock extends React.Component {
     }
 
     render() {
+        // debugger
         return (
             <Link to={`/stocks/${this.grabTicker()}`} className="outerCard">
                 <div className="ui card">

@@ -12,21 +12,31 @@ class SellStock extends React.Component {
             sold: localStorage.sold,
             id: localStorage.id
         },
-        currentPrice: localStorage.currentPrice
+        currentPrice: localStorage.currentPrice,
+        amount: 0
     }
 
     inputQuantity = (e) => {
-        let changedInfo = {...this.state.newInfo}
-        changedInfo.sold = parseInt(changedInfo.sold) + parseInt(e.target.value)
-        // debugger
         this.setState({
-            newInfo: changedInfo
+            amount: e.target.value
         })
     }
 
     onSubmitHandler = (e) => {
         e.preventDefault()
-        this.props.sellStock(this.state.newInfo)
+
+        let changedInfo = {...this.state.newInfo}
+        changedInfo.sold = parseInt(changedInfo.sold) + parseInt(this.state.amount) 
+        
+        // debugger
+
+        // this.setState({
+        //     newInfo: {...changedInfo}
+        // })
+
+        // debugger
+
+        this.props.sellStock(changedInfo)
         this.props.closePopup()
     }
 
@@ -39,15 +49,16 @@ class SellStock extends React.Component {
     }
 
     render() {
+        console.log(this.state)
         return (
             <div className="settings" onClick={this.onClickHandler}>
                 <div className="ui form settingsinner">
                     <div className="settingsinner2">
                         <div className="addMoney">Wealth: ${this.props.money}</div>
-                        <div>Stock Price: {localStorage.price}</div>
+                        <div>Stock Price: {localStorage.currentPrice}</div>
                         <form onSubmit={this.onSubmitHandler} className="fields form">
                             <div className="field">
-                                <input type="number" placeholder="quantity" min="0" onChange={this.inputQuantity}/>
+                                <input type="number" placeholder="quantity" min="1" onChange={this.inputQuantity}/>
                             </div>
                             <button className="ui black button">Sell</button>
                         </form>

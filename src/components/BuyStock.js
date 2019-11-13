@@ -40,7 +40,7 @@ class BuyStock extends React.Component {
                         <div>Stock Price: {localStorage.price}</div>
                         <form onSubmit={this.onSubmitHandler} className="fields form">
                             <div className="field">
-                                <input type="number" placeholder="quantity" min="0" onChange={this.inputQuantity}/>
+                                <input type="number" placeholder="quantity" min="1" onChange={this.inputQuantity}/>
                             </div>
                             <button className="ui black button">Buy</button>
                         </form>
