@@ -43,7 +43,7 @@ class SignUp extends React.Component {
         event.preventDefault()
 
         if (this.state.user.password === this.state.user.passwordConfirmation) {
-            fetch("http://localhost:4000/api/v1/signup", {
+            fetch("https://stark-backend-2.herokuapp.com/api/v1/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -15,6 +15,7 @@ class SideBar extends React.Component {
     }
 
     render() {
+        
         return (
             <>
                 {this.props.current_user ? 

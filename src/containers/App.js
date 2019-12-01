@@ -18,7 +18,7 @@ class App extends React.Component {
   componentDidMount() {
     const user_id = localStorage.user_id
     if (user_id) {
-      fetch("http://localhost:4000/api/v1/autologin", {
+      fetch("https://stark-backend-2.herokuapp.com/api/v1/autologin", {
         headers: {
           "Authorization": user_id
         }
@@ -61,7 +61,8 @@ class App extends React.Component {
       username: data.username,
       phone_number: data.phone_number,
       birthday: data.birthday,
-      profile_picture: data.profile_picture
+      profile_picture: data.profile_picture,
+      money: data.money
     }
     let newWatchlists = data.watchlists          
     let newMyStocks = data.stocks
@@ -98,7 +99,7 @@ class App extends React.Component {
       })
     }
     if (!haveThisStock) {
-      fetch(`http://localhost:4000/api/v1/watchlists`, {
+      fetch(`https://stark-backend-2.herokuapp.com/api/v1/watchlists`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -126,7 +127,7 @@ class App extends React.Component {
     let id = stock.id
     let newArray = [...this.state.watchlists]
     newArray = newArray.filter(s => s.id !== id)
-    fetch(`http://localhost:4000/api/v1/watchlists/${id}`, {
+    fetch(`https://stark-backend-2.herokuapp.com/api/v1/watchlists/${id}`, {
       method: "DELETE"
     })
     .then(response => response.json())
@@ -146,7 +147,7 @@ class App extends React.Component {
     if (amount === 0) {
       alert("Please enter amount")
     } else {
-      fetch(`http://localhost:4000/api/v1/users/${this.state.current_user.id}`, {
+      fetch(`https://stark-backend-2.herokuapp.com/api/v1/users/${this.state.current_user.id}`, {
         method: "PATCH", 
         headers: {
           'Content-Type': 'application/json',
@@ -170,7 +171,7 @@ class App extends React.Component {
   decreaseMoney = (amount) => {
     let newInfo = {...this.state.current_user}
     newInfo.money = this.state.money - amount
-    fetch(`http://localhost:4000/api/v1/users/${this.state.current_user.id}`, {
+    fetch(`https://stark-backend-2.herokuapp.com/api/v1/users/${this.state.current_user.id}`, {
       method: "PATCH", 
       headers: {
         'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ class App extends React.Component {
       price = parseInt(stockGiven.quantity) * parseInt(stockGiven.price)
     }
     if (this.state.money - price > 0) {
-      fetch(`http://localhost:4000/api/v1/stocks`, {
+      fetch(`https://stark-backend-2.herokuapp.com/api/v1/stocks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -227,7 +228,7 @@ class App extends React.Component {
     // let stocks = this.state.myStocks
     if (parseInt(stockGiven.quantity) >= parseInt(stockGiven.sold)) {
 
-      fetch(`http://localhost:4000/api/v1/stocks/${stockGiven.id}`, {
+      fetch(`https://stark-backend-2.herokuapp.com/api/v1/stocks/${stockGiven.id}`, {
         method: "PATCH",
         headers: {
           'Content-Type': 'application/json',

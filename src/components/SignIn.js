@@ -16,7 +16,7 @@ class SignIn extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault() 
-    fetch("http://localhost:4000/api/v1/signin", {
+    fetch("https://stark-backend-2.herokuapp.com/api/v1/signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
